@@ -30,7 +30,8 @@ class MyHandler(CGIHTTPRequestHandler):
         if command.startswith(SERVO_COMMAND_PARAMETER_NAME):
             self.setHeaders();
             anglesStrings = command[len(SERVO_COMMAND_PARAMETER_NAME):].split(SERVO_ARGUMENTS_SEPARATOR);
-            servos.setServosPositionsFromDegreesStrings(anglesStrings);
+            servos.setMg995PositionsFromDegreesStrings(anglesStrings[:2]);
+			servos.setSg90PositionsFromDegreesStrings(anglesStrings[3:]);
             return;
 
         if command.startswith(WHEELS_COMMAND_PARAMETER_NAME):
