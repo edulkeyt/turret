@@ -18,6 +18,10 @@ class ServosController:
 	pca9685 = Adafruit_PCA9685.PCA9685()
 	pca9685.set_pwm_freq(PCA9685_FREQUENCY)
 
+	def setSg90Position(self, servoNumber, angle):
+	    pulse = int(SG90_MIN_PULSE + angle * SG90_PULSE_DELTA / SG90_MAX_ANGLE);
+	    self.pca9685.set_pwm(servoNumber + SG90_PINS_NUMBER_OFFSET, 0, pulse);	
+	
 	def setSg90PositionsFromDegreesStrings(self, strings):
 	    for i, substring in enumerate(strings):
 	        angle = int(substring);

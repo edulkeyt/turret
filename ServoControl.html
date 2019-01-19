@@ -20,25 +20,34 @@
 					</div>
 				</div>
 				<div class="wheels-joystick-wrapper control-right">
-					<div id="wheels_joystick" class="wheels-joystick">
-					</div>
+					<!--<div id="wheels_joystick" class="wheels-joystick">
+					</div>-->
+					<input type='button' onclick='sendFireCommand(0)'>Fire 1</input>
+					<input type='button' onclick='sendFireCommand(1)'>Fire 2</input>
+					<input type='button' onclick='sendFireCommand(2)'>Fire 3</input>
+					<input type='button' onclick='sendFireCommand(3)'>Fire 4</input>
 				</div> 	
 			</div>
-			<div>
+			<!--<div>
 				<div id="controlAreaLeft" class="joystick control-left light-pink-background"></div>
 				<div id="controlAreaRight" class="joystick control-right light-blue-background"/></div>
 			</div>
 			<div>
 				<div id="controlAreaLeft2" class="joystick control-left light-orange-background"></div>
 				<div id="controlAreaRight2" class="joystick control-right light-green-background"/></div>
-			</div>
+			</div>-->
 		</div>
 		<script src="js/requestHelper.js"></script>
 		<script src="js/jquery-3.2.1.min.js"></script>
 		<script src="controls/joystick/joystick.js"></script>
 		<script src="controls/wheelsJoystick/wheelsJoystick.js"></script>
 		<script>
-			function initWheelsControl(){
+			function sendFireCommand(armNumber) {
+				httpGetSync(getUrlCommand("fire=" + armNumber),
+					null);
+			}
+		
+			/*function initWheelsControl(){
 				var wheelsJoysticks = $(".wheels-joystick");
 				function sendWheelsState(leftWheelDirection, rightWheelDirection, leftWheelSpeed, rightWheelSpeed){
 					httpGetSync(getUrlCommand("wheels="
@@ -55,11 +64,9 @@
 					var wheelsJoystickDiv = item;
 					wheelsJoystick(wheelsJoystickDiv, 25, 255, sendWheelsState, sendStopSignal);
 				})
-			}	
+			}*/	
 
 			function initServoControl(){
-			
-				console.log('main');
 				
 				function servoConf(minAngle, maxAngle, angle, speed){
 					return {
@@ -81,12 +88,12 @@
 					},
 					
 					servos: [
-						servoConf(0, 180, 90, -0.3),
-						servoConf(0, 180, 90, 0.3),
-						servoConf(0, 180, 90, 0.3),
-						servoConf(0, 180, 90, 0.5),
-						servoConf(0, 180, 90, 0.7),
-						servoConf(0, 180, 90, 0.5),
+						//servoConf(0, 180, 90, -0.3),
+						//servoConf(0, 180, 90, 0.3),
+						//servoConf(0, 180, 90, 0.3),
+						//servoConf(0, 180, 90, 0.5),
+						//servoConf(0, 180, 90, 0.7),
+						//servoConf(0, 180, 90, 0.5),
 						servoConf(0, 180, 90, -0.5),
 						servoConf(0, 180, 90, 0.5)
 					]
@@ -97,11 +104,11 @@
 				}
 
 				function initJoysticks(){
-					joystick(document.getElementById("controlAreaLeft"), controlState.servos[0], controlState.servos[1], sendServosAngles);
-					joystick(document.getElementById("controlAreaRight"), controlState.servos[0], controlState.servos[2], sendServosAngles);
-					joystick(document.getElementById("controlAreaLeft2"), controlState.servos[4], controlState.servos[3], sendServosAngles);
-					joystick(document.getElementById("controlAreaRight2"), servoConf(0, 180, 90, 0.7), controlState.servos[5], sendServosAngles);
-					joystick(document.getElementById("camera_joystick"), controlState.servos[6], controlState.servos[7], sendServosAngles);
+					//joystick(document.getElementById("controlAreaLeft"), controlState.servos[0], controlState.servos[1], sendServosAngles);
+					//joystick(document.getElementById("controlAreaRight"), controlState.servos[0], controlState.servos[2], sendServosAngles);
+					//joystick(document.getElementById("controlAreaLeft2"), controlState.servos[4], controlState.servos[3], sendServosAngles);
+					//joystick(document.getElementById("controlAreaRight2"), servoConf(0, 180, 90, 0.7), controlState.servos[5], sendServosAngles);
+					joystick(document.getElementById("camera_joystick"), controlState.servos[0], controlState.servos[1], sendServosAngles);
 				}
 
 				initJoysticks();
@@ -109,7 +116,7 @@
 			}
 			
 			$(document).ready(function(){
-				initWheelsControl();
+				//initWheelsControl();
 				initServoControl();
 			});
 

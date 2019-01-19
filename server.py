@@ -1,15 +1,12 @@
 from http.server import HTTPServer, CGIHTTPRequestHandler
 import time
 import urllib
-from wheels import WheelsController
 from servos import ServosController
 
 SERVO_COMMAND_PARAMETER_NAME = "servos=";
-WHEELS_COMMAND_PARAMETER_NAME = "wheels=";
+FIRE_COMMAND_PARAMETER_NAME = "fire=";
 
 SERVO_ARGUMENTS_SEPARATOR = 'a';
-
-WHEELS_ARGUMENTS_SEPARATOR = ":";
 
 SERVER_ADDRESS = ("", 8000)
 
@@ -31,24 +28,20 @@ class MyHandler(CGIHTTPRequestHandler):
             self.setHeaders();
             anglesStrings = command[len(SERVO_COMMAND_PARAMETER_NAME):].split(SERVO_ARGUMENTS_SEPARATOR);
             servos.setMg995PositionsFromDegreesStrings(anglesStrings[:2]);
-			servos.setSg90PositionsFromDegreesStrings(anglesStrings[3:]);
-            return;
+            return;        
 
-        if command.startswith(WHEELS_COMMAND_PARAMETER_NAME):
+		if command.startswith(FIRE_COMMAND_PARAMETER_NAME):
             self.setHeaders();
-            commandStrings = command[len(WHEELS_COMMAND_PARAMETER_NAME):].split(WHEELS_ARGUMENTS_SEPARATOR);
-            wheels.setWheelsStateFromStrings(commandStrings);
-            return;
+            armNuber = int(command[len(FIRE_COMMAND_PARAMETER_NAME):]);
+            servos.setSg90Position(servoNumber, 0);
+			#wait here
+            servos.setSg90Position(servoNumber, 90);
 
         super().do_GET();        
         return;
 
 servos = ServosController();
 
-wheels = WheelsController();
-
 httpd = HTTPServer(SERVER_ADDRESS, MyHandler)
 print("Server started")
 httpd.serve_forever()
-
-wheels.dispose();
