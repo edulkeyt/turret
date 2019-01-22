@@ -30,12 +30,15 @@ class MyHandler(CGIHTTPRequestHandler):
             servos.setMg995PositionsFromDegreesStrings(anglesStrings[:2]);
             return;        
 
-		if command.startswith(FIRE_COMMAND_PARAMETER_NAME):
+        if command.startswith(FIRE_COMMAND_PARAMETER_NAME):
             self.setHeaders();
             armNuber = int(command[len(FIRE_COMMAND_PARAMETER_NAME):]);
-            servos.setSg90Position(servoNumber, 0);
-			#wait here
-            servos.setSg90Position(servoNumber, 90);
+            print(armNuber);
+            servos.setSg90Position(armNuber, 0);
+            time.sleep(0.3);
+            servos.setSg90Position(armNuber, 90);
+            time.sleep(0.3);
+            servos.setSg90Position(armNuber, 0);
 
         super().do_GET();        
         return;
