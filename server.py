@@ -5,6 +5,7 @@ from servos import ServosController
 
 SERVO_COMMAND_PARAMETER_NAME = "servos=";
 FIRE_COMMAND_PARAMETER_NAME = "fire=";
+FIRE_SERVO_ANGLE = 50;
 
 SERVO_ARGUMENTS_SEPARATOR = 'a';
 
@@ -35,15 +36,19 @@ class MyHandler(CGIHTTPRequestHandler):
             armNuber = int(command[len(FIRE_COMMAND_PARAMETER_NAME):]);
             print(armNuber);
             servos.setSg90Position(armNuber, 0);
-            time.sleep(0.3);
-            servos.setSg90Position(armNuber, 90);
-            time.sleep(0.3);
+            time.sleep(0.2);
+            servos.setSg90Position(armNuber, FIRE_SERVO_ANGLE);
+            time.sleep(0.2);
             servos.setSg90Position(armNuber, 0);
 
         super().do_GET();        
         return;
 
 servos = ServosController();
+servos.setSg90Position(0, 0);
+servos.setSg90Position(1, 0);
+servos.setSg90Position(2, 0);
+servos.setSg90Position(3, 0);
 
 httpd = HTTPServer(SERVER_ADDRESS, MyHandler)
 print("Server started")
