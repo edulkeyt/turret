@@ -5,6 +5,7 @@ from servos import ServosController
 
 SERVO_COMMAND_PARAMETER_NAME = "servos=";
 FIRE_COMMAND_PARAMETER_NAME = "fire=";
+SALVO_COMMAND_PARAMETER_NAME = "salvo";
 FIRE_SERVO_ANGLE = 50;
 
 SERVO_ARGUMENTS_SEPARATOR = 'a';
@@ -34,12 +35,21 @@ class MyHandler(CGIHTTPRequestHandler):
         if command.startswith(FIRE_COMMAND_PARAMETER_NAME):
             self.setHeaders();
             armNuber = int(command[len(FIRE_COMMAND_PARAMETER_NAME):]);
-            print(armNuber);
-            servos.setSg90Position(armNuber, 0);
-            time.sleep(0.2);
             servos.setSg90Position(armNuber, FIRE_SERVO_ANGLE);
             time.sleep(0.2);
             servos.setSg90Position(armNuber, 0);
+
+        if command.startswith(SALVO_COMMAND_PARAMETER_NAME):
+            self.setHeaders();
+            servos.setSg90Position(0, FIRE_SERVO_ANGLE);
+            servos.setSg90Position(1, FIRE_SERVO_ANGLE);
+            servos.setSg90Position(2, FIRE_SERVO_ANGLE);
+            servos.setSg90Position(3, FIRE_SERVO_ANGLE);
+            time.sleep(0.3);
+            servos.setSg90Position(0, 0);
+            servos.setSg90Position(1, 0);
+            servos.setSg90Position(2, 0);
+            servos.setSg90Position(3, 0);
 
         super().do_GET();        
         return;

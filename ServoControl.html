@@ -27,6 +27,9 @@
 					<input type='button' onclick='sendFireCommand(2)'>Fire 3</input>
 					<input type='button' onclick='sendFireCommand(3)'>Fire 4</input>
 				</div> 	
+				<div class="control-right">
+					<input type='button' onclick='sendSalvoCommand()'>Salvo!!!</input>
+				</div>
 			</div>
 			<!--<div>
 				<div id="controlAreaLeft" class="joystick control-left light-pink-background"></div>
@@ -44,6 +47,11 @@
 		<script>
 			function sendFireCommand(armNumber) {
 				httpGetSync(getUrlCommand("fire=" + armNumber),
+					null);
+			}
+			
+			function sendSalvoCommand() {
+				httpGetSync(getUrlCommand("salvo"),
 					null);
 			}
 		
@@ -94,8 +102,8 @@
 						//servoConf(0, 180, 90, 0.5),
 						//servoConf(0, 180, 90, 0.7),
 						//servoConf(0, 180, 90, 0.5),
-						servoConf(0, 180, 90, -0.2),
-						servoConf(0, 180, 90, 0.2)
+						servoConf(0, 180, 90, -0.4),
+						servoConf(0, 180, 90, 0.4)
 					]
 				}
 
