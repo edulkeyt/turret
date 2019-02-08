@@ -21,14 +21,12 @@
 				</div>
 				<div class="wheels-joystick-wrapper control-right">
 					<!--<div id="wheels_joystick" class="wheels-joystick">
-					</div>-->
-					<input type='button' onclick='sendFireCommand(0)'>Fire 1</input>
-					<input type='button' onclick='sendFireCommand(1)'>Fire 2</input>
-					<input type='button' onclick='sendFireCommand(2)'>Fire 3</input>
-					<input type='button' onclick='sendFireCommand(3)'>Fire 4</input>
-				</div> 	
-				<div class="control-right">
-					<input type='button' onclick='sendSalvoCommand()'>Salvo!!!</input>
+					</div>-->					
+					<div><input type='button' onclick='sendFireCommand(0)'>Fire 1</input></div>
+					<div><input type='button' onclick='sendFireCommand(1)'>Fire 2</input></div>
+					<div><input type='button' onclick='sendFireCommand(2)'>Fire 3</input></div>
+					<div><input type='button' onclick='sendFireCommand(3)'>Fire 4</input></div>
+					<div><input type='button' onclick='sendSalvoCommand()'>Salvo!!!</input></div>
 				</div>
 			</div>
 			<!--<div>
@@ -103,7 +101,7 @@
 						//servoConf(0, 180, 90, 0.7),
 						//servoConf(0, 180, 90, 0.5),
 						servoConf(0, 180, 90, -0.4),
-						servoConf(0, 180, 90, 0.4)
+						servoConf(0, 180, 90, -0.4)
 					]
 				}
 

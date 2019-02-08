@@ -9,6 +9,8 @@ SALVO_COMMAND_PARAMETER_NAME = "salvo";
 FIRE_SERVO_ANGLE = 50;
 
 SERVO_ARGUMENTS_SEPARATOR = 'a';
+HEIGHT_SERVO_MAX_DEGREE = 120;
+HEIGHT_SERVO_MIN_DEGREE = 80;
 
 SERVER_ADDRESS = ("", 8000)
 
@@ -24,13 +26,15 @@ class MyHandler(CGIHTTPRequestHandler):
     
     def do_GET(self):
 
-        command = self.path[1:];        
+        command = self.path[1:];
 
         if command.startswith(SERVO_COMMAND_PARAMETER_NAME):
             self.setHeaders();
             anglesStrings = command[len(SERVO_COMMAND_PARAMETER_NAME):].split(SERVO_ARGUMENTS_SEPARATOR);
-            servos.setMg995PositionsFromDegreesStrings(anglesStrings[:2]);
-            return;        
+            anglesInt = [int(angleStr) for angleStr in anglesStrings[:2]];
+            anglesInt[2] = max(HEIGHT_SERVO_MIN_DEGREE, min(anglesInt[2], HEIGHT_SERVO_MAX_DEGREE));
+            servos.setMg995PositionsFromDegreesStrings(anglesInt);
+            return;
 
         if command.startswith(FIRE_COMMAND_PARAMETER_NAME):
             self.setHeaders();
@@ -51,7 +55,7 @@ class MyHandler(CGIHTTPRequestHandler):
             servos.setSg90Position(2, 0);
             servos.setSg90Position(3, 0);
 
-        super().do_GET();        
+        super().do_GET();
         return;
 
 servos = ServosController();
