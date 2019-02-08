@@ -64,20 +64,20 @@ class MyHandler(CGIHTTPRequestHandler):
 
         if command == YES_COMMAND_PARAMETER_NAME:
             self.setHeaders();
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree, sightHeightDegree - 10]);
-            time.sleep(0.2);
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree, sightHeightDegree + 10]);
-            time.sleep(0.2);
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree, sightHeightDegree]);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree, self.sightHeightDegree - 10]);
+            time.sleep(0.3);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree, self.sightHeightDegree + 10]);
+            time.sleep(0.3);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree, self.sightHeightDegree]);
             
 
         if command == NO_COMMAND_PARAMETER_NAME:
             self.setHeaders();
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree - 10, sightHeightDegree]);
-            time.sleep(0.2);
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree + 10, sightHeightDegree]);
-            time.sleep(0.2);
-            servos.setMg995PositionsFromDegreesStrings([sightAzimutDegree, sightHeightDegree]);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree - 10, self.sightHeightDegree]);
+            time.sleep(0.4);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree + 10, self.sightHeightDegree]);
+            time.sleep(0.4);
+            servos.setMg995PositionsFromDegreesStrings([self.sightAzimutDegree, self.sightHeightDegree]);
 
         super().do_GET();
         return;
