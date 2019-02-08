@@ -9,8 +9,8 @@ SALVO_COMMAND_PARAMETER_NAME = "salvo";
 FIRE_SERVO_ANGLE = 50;
 
 SERVO_ARGUMENTS_SEPARATOR = 'a';
-HEIGHT_SERVO_MAX_DEGREE = 120;
 HEIGHT_SERVO_MIN_DEGREE = 80;
+HEIGHT_SERVO_DELTA_DEGREE = 40;
 
 SERVER_ADDRESS = ("", 8000)
 
@@ -32,7 +32,7 @@ class MyHandler(CGIHTTPRequestHandler):
             self.setHeaders();
             anglesStrings = command[len(SERVO_COMMAND_PARAMETER_NAME):].split(SERVO_ARGUMENTS_SEPARATOR);
             anglesInt = [int(angleStr) for angleStr in anglesStrings[:2]];
-            anglesInt[2] = max(HEIGHT_SERVO_MIN_DEGREE, min(anglesInt[2], HEIGHT_SERVO_MAX_DEGREE));
+            anglesInt[1] = HEIGHT_SERVO_MIN_DEGREE + (anglesInt[1] * HEIGHT_SERVO_DELTA_DEGREE) / 180;
             servos.setMg995PositionsFromDegreesStrings(anglesInt);
             return;
 
