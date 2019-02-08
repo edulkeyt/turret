@@ -24,3 +24,16 @@
 	display: block;
 	margin: auto;
 }
+.yes {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+.no {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+input {
+	height: 30px;
+	width: 200px;
+}

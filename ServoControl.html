@@ -22,11 +22,13 @@
 				<div class="wheels-joystick-wrapper control-right">
 					<!--<div id="wheels_joystick" class="wheels-joystick">
 					</div>-->					
-					<div><input type='button' onclick='sendFireCommand(0)'>Fire 1</input></div>
-					<div><input type='button' onclick='sendFireCommand(1)'>Fire 2</input></div>
-					<div><input type='button' onclick='sendFireCommand(2)'>Fire 3</input></div>
-					<div><input type='button' onclick='sendFireCommand(3)'>Fire 4</input></div>
-					<div><input type='button' onclick='sendSalvoCommand()'>Salvo!!!</input></div>
+					<div><input type='button' onclick='sendFireCommand(0)' value='Fire 1'/></div>
+					<div><input type='button' onclick='sendFireCommand(1)' value='Fire 2'/></div>
+					<div><input type='button' onclick='sendFireCommand(2)' value='Fire 3'/></div>
+					<div><input type='button' onclick='sendFireCommand(3)' value='Fire 4'/></div>
+					<div><input type='button' onclick='sendSalvoCommand()' value='Salvo!!!'/></div>
+					<div class='yes'><input type='button' onclick='sendYesCommand()' value='Yes'/></div>
+					<div class='no'><input type='button' onclick='sendNoCommand()' value='No'/></div>
 				</div>
 			</div>
 			<!--<div>
@@ -50,6 +52,16 @@
 			
 			function sendSalvoCommand() {
 				httpGetSync(getUrlCommand("salvo"),
+					null);
+			}
+			
+			function sendYesCommand() {
+				httpGetSync(getUrlCommand("yes"),
+					null);
+			}
+			
+			function sendNoCommand() {
+				httpGetSync(getUrlCommand("no"),
 					null);
 			}
 		
