@@ -39,27 +39,26 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
       try:
         # Taking images from Raspberry pi camera:
         start=time.time()
-        while fps._numFrames < 100:
-          # grab the frame from the threaded video stream and resize it
-          # to have a maximum width of 400 pixels
-          frame = vs.read()
-          frame = imutils.resize(frame, width=400)
-          stream.write(bytearray(frame))
-          # check to see if the frame should be displayed to our screen
-          #if args["display"] > 0:
-            #cv2.imshow("Frame", frame)
-            #key = cv2.waitKey(1) & 0xFF
-          # update the FPS counter
-          fps.update()
-          # for foo in camera.capture_continuous(stream,'jpeg'):
-          self.wfile.write("--jpgboundary")
-          self.send_header('Content-type','image/jpeg')
-          self.send_header('Content-length',len(stream.getvalue()))
-          self.end_headers()
-          self.wfile.write(stream.getvalue())
-          stream.seek(0)
-          stream.truncate()
-          time.sleep(.1)
+        # grab the frame from the threaded video stream and resize it
+        # to have a maximum width of 400 pixels
+        frame = vs.read()
+        frame = imutils.resize(frame, width=400)
+        stream.write(bytearray(frame))
+        # check to see if the frame should be displayed to our screen
+        #if args["display"] > 0:
+          #cv2.imshow("Frame", frame)
+          #key = cv2.waitKey(1) & 0xFF
+        # update the FPS counter
+        fps.update()
+        # for foo in camera.capture_continuous(stream,'jpeg'):
+        self.wfile.write("--jpgboundary")
+        self.send_header('Content-type','image/jpeg')
+        self.send_header('Content-length',len(stream.getvalue()))
+        self.end_headers()
+        self.wfile.write(stream.getvalue())
+        stream.seek(0)
+        stream.truncate()
+        #time.sleep(.1)
       except KeyboardInterrupt:
         pass 
       return
