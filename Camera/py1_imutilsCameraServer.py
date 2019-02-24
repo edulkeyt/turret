@@ -1,13 +1,3 @@
-#!/usr/bin/python
-'''
-  Author: Ismael Benito Altamirano 
-  
-  Based on a Simple mjpg stream http server for the Raspberry Pi Camera
-  inspired by https://gist.github.com/n3wtron/4624820
-  by Igor Maculan - n3wtron@gmail.com
-  
-'''
-
 import SimpleHTTPServer
 import SocketServer
 import io
@@ -50,18 +40,18 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 				# Taking images from Raspberry pi camera:
 				start=time.time()
 				while fps._numFrames < args["num_frames"]:
-	                # grab the frame from the threaded video stream and resize it
-	                # to have a maximum width of 400 pixels
-	                frame = vs.read()
-	                frame = imutils.resize(frame, width=400)
-	                stream.write(bytearray(frame))
-	                # check to see if the frame should be displayed to our screen
-	                #if args["display"] > 0:
-	                    #cv2.imshow("Frame", frame)
-	                    #key = cv2.waitKey(1) & 0xFF
+					# grab the frame from the threaded video stream and resize it
+					# to have a maximum width of 400 pixels
+					frame = vs.read()
+					frame = imutils.resize(frame, width=400)
+					stream.write(bytearray(frame))
+					# check to see if the frame should be displayed to our screen
+					#if args["display"] > 0:
+						#cv2.imshow("Frame", frame)
+						#key = cv2.waitKey(1) & 0xFF
  
-	                # update the FPS counter
-	                fps.update()
+					# update the FPS counter
+					fps.update()
 				# for foo in camera.capture_continuous(stream,'jpeg'):
 					self.wfile.write("--jpgboundary")
 					self.send_header('Content-type','image/jpeg')
@@ -91,8 +81,8 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 			except KeyboardInterrupt:
 				pass 
 			return
-		  
-		  
+
+
 	def do_POST(self):
 	# When a POST solicitude comes into the server, then execute this:
 		logging.warning("======= POST STARTED =======")
@@ -112,24 +102,24 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 		camera.led = '1' in form.getlist("led")
 		
 		SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
-					
+
 
 def main():
-  # created a *threaded *video stream, allow the camera sensor to warmup,
-  # and start the FPS counter
-  print("[INFO] sampling THREADED frames from `picamera` module...")
-  vs = PiVideoStream().start()
-  time.sleep(2.0)
-  fps = FPS().start()
-    
-  try:
-    server = SocketServer.TCPServer(('', 8900), Handler)
-    print "server started"
-    server.serve_forever()
-  except KeyboardInterrupt:
-    fps.stop()
-    #cv2.destroyAllWindows()
-    vs.stop()
- 
+	# created a *threaded *video stream, allow the camera sensor to warmup,
+	# and start the FPS counter
+	print("[INFO] sampling THREADED frames from `picamera` module...")
+	vs = PiVideoStream().start()
+	time.sleep(2.0)
+	fps = FPS().start()
+
+	try:
+		server = SocketServer.TCPServer(('', 8900), Handler)
+		print "server started"
+		server.serve_forever()
+	except KeyboardInterrupt:
+		fps.stop()
+		#cv2.destroyAllWindows()
+		vs.stop()
+
 if __name__ == '__main__':
-  main()
+	main()
