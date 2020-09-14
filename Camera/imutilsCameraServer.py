@@ -1,6 +1,7 @@
 from __future__ import print_function
-import SimpleHTTPServer
-import SocketServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler
+import socket
+from SocketServer import TCPServer
 import io
 import time
 import picamera
@@ -28,11 +29,35 @@ rewrite = {"/": "/index.html",
        "/index.html": "/index.html",
        "/index.php": "/index.html",
        "/index": "/index.html"}
-       
- 
-# Server Handler is defined as a Class.    
-class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
+#super() argument 1 must be type, not classobj
+       
+class _TCPServer(TCPServer):
+  """def __init__(self, arg1, arg2):
+    self.disable_nagle_algorithm=True
+    TCPServer.__init__(self, arg1, arg2)
+    #print(self.disable_nagle_algorithm)
+    self.disable_nagle_algorithm=True
+""
+  def server_bind(self):
+    print("bind")
+    self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    TCPServer.server_bind(self)
+""" 
+  
+# Server Handler is defined as a Class.    
+class CamHandler(SimpleHTTPRequestHandler):
+
+  #wbufsize = -1
+  #disable_nagle_algorithm = True
+  #timeout=0.05;
+  
+  """def __init__(self, arg1, arg2, arg3):    
+    SimpleHTTPRequestHandler.__init__(self, arg1, arg2, arg3)
+    self.disable_nagle_algorithm=True
+    self.timeout = 0
+"""
+    
   def do_GET(self):
     _startTime = datetime.datetime.now()
     # When a GET solicitude comes into the server, then execute this:
@@ -44,20 +69,22 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
       #stream=io.BytesIO()
       try:
         while True:
-          #_startTime = datetime.datetime.now()
+          _startTime = datetime.datetime.now()
           frame = vs.read()
           #print(1/(datetime.datetime.now() - _startTime).total_seconds(), end=' ')
           #frame = imutils.resize(frame, width=640, height=480)
           ret, jpg = cv2.imencode('.jpg', frame)
           #print(1/(datetime.datetime.now() - _startTime).total_seconds(), end=' ')
           stream = jpg.tobytes()
-          
+          #print(len(stream))
+         
 
           self.wfile.write("--jpgboundary")
           self.send_header('Content-type','image/jpg')
           self.send_header('Content-length',len(stream))
           self.end_headers()
           self.wfile.write(stream)
+          #print((datetime.datetime.now() - _startTime).total_seconds())
           #print(1/(datetime.datetime.now() - _startTime).total_seconds())
           #_startTime = datetime.datetime.now()
           #stream.seek(0)
@@ -101,7 +128,8 @@ def main():
   Handler = CamHandler
     
   try:
-    server = SocketServer.TCPServer(('', 8900), Handler)
+    server = _TCPServer(('', 8900), Handler)    
+    #server.disable_nagle_algorithm=True
     print("server started")
     server.serve_forever()
   except KeyboardInterrupt:

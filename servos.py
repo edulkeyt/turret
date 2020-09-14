@@ -4,7 +4,7 @@ import Adafruit_PCA9685
 SG90_MAX_ANGLE = 180;
 SG90_MIN_PULSE = 130;
 SG90_PULSE_DELTA = 470;
-SG90_PINS_NUMBER_OFFSET = 4;
+SG90_PINS_NUMBER_OFFSET = 8;
 
 MG995_MAX_ANGLE = 180;
 MG995_MIN_PULSE = 110;
@@ -32,3 +32,7 @@ class ServosController:
 	    for i, angle in enumerate(anglesInt):
 	        pulse = int(MG995_MIN_PULSE + angle * MG995_PULSE_DELTA / MG995_MAX_ANGLE);
 	        self.pca9685.set_pwm(i, 0, pulse);
+
+	def setMg995(self, servoNumber, angle):
+	    pulse = int(MG995_MIN_PULSE + angle * MG995_PULSE_DELTA / MG995_MAX_ANGLE);
+	    self.pca9685.set_pwm(servoNumber, 0, pulse);
